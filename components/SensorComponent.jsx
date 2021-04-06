@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Accelerometer } from 'expo-sensors';
 import styled from 'styled-components/native';
-import {  } from 'react-native';
+import { Text } from 'react-native';
 
 // ==========================
 // = Functions
@@ -23,16 +23,25 @@ const ShakeView = styled.View`
   flex-direction: column;
 `;
 
+
+
 const ShakeAlert = styled.Text`
   font-size: 36px;
   font-weight: bold;
-  color: #aa0000;
+  color: #57E2E5;
 `;
 const ShakeDataView = styled.View``;
 const ShakeDataTitle = styled.Text`
   font-weight: bold;
+  color: #57E2E5;
 `;
-const ShakeData = styled.Text``;
+const ShakeData = styled.Text`
+  color: #57E2E5;
+`;
+
+const ShowAnswer = styled.Text`
+  color: #57E2E5;
+`;
 
 export const SensorComponent = () => {
   // This function determines how often our program reads the accelerometer data in milliseconds
@@ -75,23 +84,25 @@ export const SensorComponent = () => {
     // Stop listening to the data when we leave SensorComponent
     return () => _unsubscribe();
   }, []);
+  
+  const answerArray = ['YES, do it!', 'NOOOOOO!', 'Think it over again', 'DO IT NOW!!', 'No Way!', 'Worst mistake EVER', 'Best Idea Ever 🤩', 'I would reconsider that', 'Why not 😊', 'I think you need a holiday 🏖', 'Quit your job and start coding 🤓💻']
+  const [answer, setAnswer] = useState(null);
+  useEffect(() => {
+    !isShaking(data) && setAnswer(answerArray[Math.floor(Math.random()*answerArray.length)]);
+  }, [isShaking(data)]);
 
   return (
-    <ShakeView>
-      {/* 
-      If isShaking returns true:
-        - We could render conditionally
-        - Maybe we want to dispatch some redux event when device shakes?
-        - Maybe change some styled props? 
-      */}
-      {isShaking(data) && <ShakeAlert>Shaking</ShakeAlert>}
-      <ShakeDataView>
-        <ShakeDataTitle>Shake Data</ShakeDataTitle>
-        {/* toFixed(2) only shows two decimal places, otherwise it's quite a lot */}
-        <ShakeData>X: {data.x.toFixed(2)}</ShakeData>
-        <ShakeData>Y: {data.y.toFixed(2)}</ShakeData>
-        <ShakeData>Z: {data.z.toFixed(2)}</ShakeData>
-      </ShakeDataView>
-    </ShakeView>
+      <ShakeView>
+        {isShaking(data) && <ShakeAlert>Shaking</ShakeAlert>}
+        {answer && 
+          <ShowAnswer>{answer}</ShowAnswer>
+        }
+          { /* 
+        If isShaking returns true:
+          - We could render conditionally
+          - Maybe we want to dispatch some redux event when device shakes?
+          - Maybe change some styled props? 
+        */}
+      </ShakeView>
   );
 };
