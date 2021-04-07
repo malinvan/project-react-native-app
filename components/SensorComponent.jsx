@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Accelerometer } from 'expo-sensors';
 import styled from 'styled-components/native';
-import { Text } from 'react-native';
+import { Image } from 'react-native';
 
 // ==========================
 // = Functions
@@ -23,8 +23,6 @@ const ShakeView = styled.View`
   flex-direction: column;
 `;
 
-
-
 const ShakeAlert = styled.Text`
   font-size: 36px;
   font-weight: bold;
@@ -40,7 +38,16 @@ const ShakeData = styled.Text`
 `;
 
 const ShowAnswer = styled.Text`
+  font-size: 36px;
+  font-weight: bold;
   color: #57E2E5;
+  text-align: center;
+`;
+
+const MovieContainer = styled.Image`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SensorComponent = () => {
@@ -85,24 +92,27 @@ export const SensorComponent = () => {
     return () => _unsubscribe();
   }, []);
   
-  const answerArray = ['YES, do it!', 'NOOOOOO!', 'Think it over again', 'DO IT NOW!!', 'No Way!', 'Worst mistake EVER', 'Best Idea Ever 🤩', 'I would reconsider that', 'Why not 😊', 'I think you need a holiday 🏖', 'Quit your job and start coding 🤓💻']
-  const [answer, setAnswer] = useState(null);
+  const filmArray = ['464052', '458576', '529203', '522444', '527774', '587807', '464052', '544401', '755812', '602269', '412656', '399566', '791373']
+  const [film, setFilm] = useState(null);
+
   useEffect(() => {
-    !isShaking(data) && setAnswer(answerArray[Math.floor(Math.random()*answerArray.length)]);
+    !isShaking(data) && 
+    fetch(`https://api.themoviedb.org/3/movie/${filmArray[Math.floor(Math.random()*filmArray.length)]}?api_key=d1212c48c1a2b13b12dd27882d072960&language=en-US&page=1`)
+      .then((res) => res.json())
+      .then(json => setFilm(json))
   }, [isShaking(data)]);
+
+  console.log(film);
 
   return (
       <ShakeView>
         {isShaking(data) && <ShakeAlert>Shaking</ShakeAlert>}
-        {answer && 
-          <ShowAnswer>{answer}</ShowAnswer>
+        { film && 
+        <MovieContainer>
+          <Image source={{uri: {film.poster_path}}}/>
+          <ShowAnswer>{film.title}</ShowAnswer> 
+        </MovieContainer>
         }
-          { /* 
-        If isShaking returns true:
-          - We could render conditionally
-          - Maybe we want to dispatch some redux event when device shakes?
-          - Maybe change some styled props? 
-        */}
       </ShakeView>
   );
 };
