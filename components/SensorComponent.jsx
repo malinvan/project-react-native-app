@@ -26,25 +26,25 @@ const ShakeView = styled.View`
 const ShakeAlert = styled.Text`
   font-size: 36px;
   font-weight: bold;
-  color: #57E2E5;
+  color: #61eff7;
 `;
 const ShakeDataView = styled.View``;
 const ShakeDataTitle = styled.Text`
   font-weight: bold;
-  color: #57E2E5;
+  color: #61eff7;
 `;
 const ShakeData = styled.Text`
-  color: #57E2E5;
+  color: #61eff7;
 `;
 
 const ShowAnswer = styled.Text`
   font-size: 36px;
   font-weight: bold;
-  color: #57E2E5;
+  color: #61eff7;
   text-align: center;
 `;
 
-const MovieContainer = styled.Image`
+const MovieContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -102,14 +102,20 @@ export const SensorComponent = () => {
       .then(json => setFilm(json))
   }, [isShaking(data)]);
 
-  console.log(film);
-
   return (
       <ShakeView>
         {isShaking(data) && <ShakeAlert>Shaking</ShakeAlert>}
         { film && 
         <MovieContainer>
-          <Image source={{uri: {film.poster_path}}}/>
+          <Image 
+          style={{
+            width: 51,
+            height: 51,
+            resizeMode: 'contain',
+          }}
+          source={{
+            uri: `https://image.tmdb.org/t/p/w500${film.poster_path}`
+          }} />
           <ShowAnswer>{film.title}</ShowAnswer> 
         </MovieContainer>
         }

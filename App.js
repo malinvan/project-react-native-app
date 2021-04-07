@@ -27,7 +27,7 @@ const ShakeTitle = styled.Text`
 `;
 
 const Button = styled.TouchableOpacity`
-  background-color: #57E2E5;
+  background-color: #61eff7;
   color: white;
   padding: 10px 20px;
   border-radius: 50px;
@@ -37,12 +37,16 @@ const Button = styled.TouchableOpacity`
 
 const SensorContainer = styled.View`
   flex: 1;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 `;
 
 const  RestartBtn = styled(Button)`
   width 30%;
+`;
+
+const Image = styled.Image`
+  
 `;
 
 
@@ -53,7 +57,7 @@ const App = () => {
   return (
     <Container>
       {view && <TitleContainer accessible={true}>
-        <ShakeTitle>I'm Your Magic 8 Ball Shake Me For Advice!</ShakeTitle>
+        <ShakeTitle>Shake For a Movie Tip 🍿</ShakeTitle>
         <Button onPress={() => setView(false)}>
           <Text>Start</Text>
         </Button>
@@ -61,7 +65,7 @@ const App = () => {
       {!view && <SensorContainer>
         <SensorComponent></SensorComponent>        
         <RestartBtn onPress={() => setView(true)}>
-          <Text>Re-start</Text>
+          <Text>Nah! Another one!</Text>
         </RestartBtn>
       </SensorContainer>}
     </Container>
