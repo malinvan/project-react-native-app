@@ -31,21 +31,21 @@ const ShakeAlert = styled.Text`
 const ShakeDataView = styled.View``;
 const ShakeDataTitle = styled.Text`
   font-weight: bold;
-  color: #61eff7;
+  color: #e03031;
 `;
 const ShakeData = styled.Text`
-  color: #61eff7;
+  color: #e03031;
 `;
 
 const ShowAnswer = styled.Text`
   font-size: 25px;
   font-weight: bold;
-  color: #61eff7;
+  color: white;
   text-align: center;
 `;
 
 const MovieContainer = styled.View`
-
+  
 `;
 
 export const SensorComponent = () => {
@@ -62,6 +62,9 @@ export const SensorComponent = () => {
 
   // This keeps track of whether we are listening to the Accelerometer data
   const [subscription, setSubscription] = useState(null);
+  const [fetchingPaused, setFetchingPaused] = useState(false);
+  const filmArray = ['464052', '458576', '529203', '522444', '527774', '587807', '464052', '544401', '755812', '602269', '412656', '399566', '791373']
+  const [film, setFilm] = useState(null);
 
   const _subscribe = () => {
     // Save the subscription so we can stop using the accelerometer later
@@ -70,10 +73,17 @@ export const SensorComponent = () => {
       Accelerometer.addListener((accelerometerData) => {
         // Whenever this function is called, we have received new data
         // The frequency of this function is controlled by setUpdateInterval
-        setData(accelerometerData);
-      })
-    );
-  };
+        if (isShaking(accelerometerData)) {
+          setFetchingPaused(true)
+          fetch(`https://api.themoviedb.org/3/movie/${filmArray[Math.floor(Math.random()*filmArray.length)]}?api_key=d1212c48c1a2b13b12dd27882d072960&language=en-US&page=1`)
+          .then((res) => res.json())
+          .then(json => setFilm(json))
+          } else {
+          setFetchingPaused(false)
+        }
+      })//   setData(accelerometerData);
+    )}
+
 
   // This will tell the device to stop reading Accelerometer data.
   // If we don't do this our device will become slow and drain a lot of battery
@@ -90,34 +100,32 @@ export const SensorComponent = () => {
     return () => _unsubscribe();
   }, []);
   
-  const filmArray = ['464052', '458576', '529203', '522444', '527774', '587807', '464052', '544401', '755812', '602269', '412656', '399566', '791373']
-  const [film, setFilm] = useState(null);
+ 
 
-  useEffect(() => {
-    !isShaking(data) && 
-    fetch(`https://api.themoviedb.org/3/movie/${filmArray[Math.floor(Math.random()*filmArray.length)]}?api_key=d1212c48c1a2b13b12dd27882d072960&language=en-US&page=1`)
-      .then((res) => res.json())
-      .then(json => setFilm(json))
-  }, [isShaking(data)]);
+  // useEffect(() => {
+  //   !isShaking(data) && 
+  //   fetch(`https://api.themoviedb.org/3/movie/${filmArray[Math.floor(Math.random()*filmArray.length)]}?api_key=d1212c48c1a2b13b12dd27882d072960&language=en-US&page=1`)
+  //     .then((res) => res.json())
+  //     .then(json => setFilm(json))
+  // }, [isShaking(data)]);
 
   return (
       <ShakeView>
         {/* {isShaking(data) && <ShakeAlert>Shaking</ShakeAlert>} */}
         { film && 
         <MovieContainer>
-          <Text>Shake again for another movie!</Text>
           <Image 
           style={{
             width: 400,
-            height: 600,
+            height: 500,
             resizeMode: 'contain',
           }}
           source={{
             uri: `https://image.tmdb.org/t/p/w500${film.poster_path}`
           }} />
-          <ShowAnswer>Shake for another movie 👋🏻</ShowAnswer> 
         </MovieContainer>
         }
+        <ShowAnswer>👋🏻 Shake for a movie 👋🏻</ShowAnswer> 
       </ShakeView>
   );
 };
