@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
 import { SensorComponent } from './components/SensorComponent';
-import * as Svg from 'react-native-svg';
 
 const Container = styled.View`
   flex: 1;
