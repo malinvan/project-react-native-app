@@ -64,9 +64,9 @@ const App = () => {
       </TitleContainer>}
       {!view && <SensorContainer>
         <SensorComponent></SensorComponent>        
-        <RestartBtn onPress={() => setView(true)}>
-          <Text>Nah! Another one!</Text>
-        </RestartBtn>
+        {/* <RestartBtn onPress={() => setView(true)}>
+          <Text>Shake again for another movie!</Text>
+        </RestartBtn> */}
       </SensorContainer>}
     </Container>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Accelerometer } from 'expo-sensors';
 import styled from 'styled-components/native';
-import { Image } from 'react-native';
+import { Image, Text } from 'react-native';
 
 // ==========================
 // = Functions
@@ -38,16 +38,14 @@ const ShakeData = styled.Text`
 `;
 
 const ShowAnswer = styled.Text`
-  font-size: 36px;
+  font-size: 25px;
   font-weight: bold;
   color: #61eff7;
   text-align: center;
 `;
 
 const MovieContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+
 `;
 
 export const SensorComponent = () => {
@@ -104,19 +102,20 @@ export const SensorComponent = () => {
 
   return (
       <ShakeView>
-        {isShaking(data) && <ShakeAlert>Shaking</ShakeAlert>}
+        {/* {isShaking(data) && <ShakeAlert>Shaking</ShakeAlert>} */}
         { film && 
         <MovieContainer>
+          <Text>Shake again for another movie!</Text>
           <Image 
           style={{
-            width: 51,
-            height: 51,
+            width: 400,
+            height: 600,
             resizeMode: 'contain',
           }}
           source={{
             uri: `https://image.tmdb.org/t/p/w500${film.poster_path}`
           }} />
-          <ShowAnswer>{film.title}</ShowAnswer> 
+          <ShowAnswer>Shake for another movie 👋🏻</ShowAnswer> 
         </MovieContainer>
         }
       </ShakeView>
