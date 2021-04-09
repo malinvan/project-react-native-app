@@ -1,13 +1,20 @@
 # Project React Native App 📱
 
-Replace this readme with your own information about your project.
+The assignment this week was to create a mobile app using React Native.
+We could choose between three different projects and I chose to create an app using the mobile sensors.
 
-Start by briefly describing the assignment in a sentence or two. Keep it short and to the point.
-
+So my app gives movie tips based on an API when the phone is shaken.
 ## The problem
 
-Describe how you approached to problem, and what tools and techniques you used to solve it. How did you plan? What technologies did you use? If you had more time, what would be next?
+My biggest issue this week has mainly been a lack of concentrated time with a sick kid at home all week.
+But I tried to be more effective in the little time I had and do the best under those conditions. 
 
+I started by using the useEffect hook for the fetching but realised that it looked bad that the app produced a movie suggestion on mounting rather than on the first shake. So I ended up removing the useEffect and doing the fetch without it.
+
+The biggest issues I faced, besides learning how to set everything up, was probably getting started and to feel comfortable in the code environment (using the accelerometer). But once I got started it went better.
+
+I've been googling a lot and reading the documentation for the styling which (albeit is basic) still required some digging for information.
+If I would have had more time I would have added routing and prettified it more, it's a bit more basic than I'd like.
 ## View it live
 
-Every project should be deployed somewhere. Be sure to include the link to the deployed project so that the viewer can click around and see what it's all about.
+https://expo.io/@malin-v/project-react-native-app
