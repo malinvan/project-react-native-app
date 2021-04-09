@@ -14,20 +14,6 @@ const ShakeView = styled.View`
   flex-direction: column;
 `;
 
-const ShakeAlert = styled.Text`
-  font-size: 36px;
-  font-weight: bold;
-  color: #61eff7;
-`;
-const ShakeDataView = styled.View``;
-const ShakeDataTitle = styled.Text`
-  font-weight: bold;
-  color: #e03031;
-`;
-const ShakeData = styled.Text`
-  color: #e03031;
-`;
-
 const ShowAnswer = styled.Text`
   font-size: 25px;
   font-weight: bold;
@@ -42,14 +28,7 @@ const MovieContainer = styled.View`
 export const SensorComponent = () => {
   Accelerometer.setUpdateInterval(400);
 
-  const [data, setData] = useState({
-    x: 0,
-    y: 0,
-    z: 0,
-  });
-
   const [subscription, setSubscription] = useState(null);
-  const [fetchingPaused, setFetchingPaused] = useState(false);
   const filmArray = ['464052', '458576', '529203', '522444', '527774', '587807', '464052', '544401', '755812', '602269', '412656', '399566', '791373']
   const [film, setFilm] = useState(null);
 
@@ -57,12 +36,9 @@ export const SensorComponent = () => {
     setSubscription(
       Accelerometer.addListener((accelerometerData) => {
         if (isShaking(accelerometerData)) {
-          setFetchingPaused(true)
           fetch(`https://api.themoviedb.org/3/movie/${filmArray[Math.floor(Math.random()*filmArray.length)]}?api_key=d1212c48c1a2b13b12dd27882d072960&language=en-US&page=1`)
-          .then((res) => res.json())
-          .then(json => setFilm(json))
-          } else {
-          setFetchingPaused(false)
+            .then((res) => res.json())
+            .then(json => setFilm(json))
         }
       })
     )}
@@ -80,7 +56,6 @@ export const SensorComponent = () => {
   
    return (
       <ShakeView>
-        {isShaking(data) && <Text>❤️</Text>}
         { film && 
         <MovieContainer>
           <Image 
